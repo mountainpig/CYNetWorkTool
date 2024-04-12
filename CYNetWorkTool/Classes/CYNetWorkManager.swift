@@ -16,7 +16,7 @@ public struct CYRequestModel {
     public var parameters: [String: Any]?
     public var timeoutInterval = 10
     
-    public init(method: HTTPMethod,url: String,headers: [String: String]? = nil,parameters: [String: Any]? = nil,timeoutInterval : Int = 10){
+    public init(method: HTTPMethod = .get,url: String,headers: [String: String]? = nil,parameters: [String: Any]? = nil,timeoutInterval : Int = 10){
         self.method = method
         self.url = url
         self.headers = headers
