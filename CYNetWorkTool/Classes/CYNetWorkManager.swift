@@ -15,12 +15,25 @@ public struct CYRequestModel {
     public var headers: [String: String]?
     public var parameters: [String: Any]?
     public var timeoutInterval = 10
+    
+    public init(method: HTTPMethod,url: String,headers: [String: String]?,parameters: [String: Any]?,timeoutInterval: 10){
+        self.method = method
+        self.headers = headers
+        self.parameters = parameters
+        self.timeoutInterval = timeoutInterval
+    }
 }
 
 public struct CYResopnseModel {
     public var dictionary: [String: Any]?
     public var error: Error?
     public var httpResponse: HTTPURLResponse?
+    
+    public init(dictionary: [String: Any]?,error: Error?,httpResponse: HTTPURLResponse?){
+        self.dictionary = dictionary
+        self.error = error
+        self.httpResponse = httpResponse
+    }
 }
 
 open class CYNetWorkManager: NSObject {
