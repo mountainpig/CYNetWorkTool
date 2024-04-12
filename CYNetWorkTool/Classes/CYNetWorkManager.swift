@@ -18,9 +18,9 @@ public struct CYRequestModel {
 }
 
 public struct CYResopnseModel {
-    var dictionary: [String: Any]?
-    var error: Error?
-    var httpResponse: HTTPURLResponse?
+    public var dictionary: [String: Any]?
+    public var error: Error?
+    public var httpResponse: HTTPURLResponse?
 }
 
 open class CYNetWorkManager: NSObject {
