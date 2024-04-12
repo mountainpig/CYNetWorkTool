@@ -16,8 +16,9 @@ public struct CYRequestModel {
     public var parameters: [String: Any]?
     public var timeoutInterval = 10
     
-    public init(method: HTTPMethod,url: String,headers: [String: String]?,parameters: [String: Any]?,timeoutInterval: 10){
+    public init(method: HTTPMethod,url: String,headers: [String: String]? = nil,parameters: [String: Any]? = nil,timeoutInterval : Int = 10){
         self.method = method
+        self.url = url
         self.headers = headers
         self.parameters = parameters
         self.timeoutInterval = timeoutInterval
@@ -29,7 +30,7 @@ public struct CYResopnseModel {
     public var error: Error?
     public var httpResponse: HTTPURLResponse?
     
-    public init(dictionary: [String: Any]?,error: Error?,httpResponse: HTTPURLResponse?){
+    public init(dictionary: [String: Any]? = nil,error: Error? = nil,httpResponse: HTTPURLResponse? = nil){
         self.dictionary = dictionary
         self.error = error
         self.httpResponse = httpResponse
