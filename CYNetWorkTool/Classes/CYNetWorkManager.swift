@@ -10,11 +10,11 @@ import Alamofire
 import SwiftyJSON
 
 public struct CYRequestModel {
-    var method: HTTPMethod
-    var url: String
-    var headers: [String: String]?
-    var parameters: [String: Any]?
-    var timeoutInterval = 10
+    public var method: HTTPMethod
+    public var url: String
+    public var headers: [String: String]?
+    public var parameters: [String: Any]?
+    public var timeoutInterval = 10
 }
 
 public struct CYResopnseModel {
@@ -25,13 +25,13 @@ public struct CYResopnseModel {
 
 open class CYNetWorkManager: NSObject {
     
-    static let shared = CYNetWorkManager()
+    public static let shared = CYNetWorkManager()
 
-    class func request(model: CYRequestModel, completion: @escaping (CYResopnseModel) -> Void) {
+    public class func request(model: CYRequestModel, completion: @escaping (CYResopnseModel) -> Void) {
         CYNetWorkManager.shared.request(model: model, completion: completion)
     }
     
-    func request(model: CYRequestModel, completion: @escaping (CYResopnseModel) -> Void) {
+    public func request(model: CYRequestModel, completion: @escaping (CYResopnseModel) -> Void) {
         var headers: HTTPHeaders?
         if let modelHeader = model.headers {
             headers = HTTPHeaders(modelHeader)
@@ -39,7 +39,7 @@ open class CYNetWorkManager: NSObject {
         self.request(model: model, header: headers, completion: completion)
     }
     
-    func request(model: CYRequestModel, header:HTTPHeaders?, completion: @escaping (CYResopnseModel) -> Void) {
+    public func request(model: CYRequestModel, header:HTTPHeaders?, completion: @escaping (CYResopnseModel) -> Void) {
         let request = AF.request(model.url,method: model.method,parameters: model.parameters,headers:header) { urlRequest in
             urlRequest.timeoutInterval = TimeInterval(model.timeoutInterval)
         }
