@@ -9,7 +9,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-struct CYRequestModel {
+public struct CYRequestModel {
     var method: HTTPMethod
     var url: String
     var headers: [String: String]?
@@ -17,13 +17,13 @@ struct CYRequestModel {
     var timeoutInterval = 10
 }
 
-struct CYResopnseModel {
+public struct CYResopnseModel {
     var dictionary: [String: Any]?
     var error: Error?
     var httpResponse: HTTPURLResponse?
 }
 
-class CYNetWorkManager: NSObject {
+open class CYNetWorkManager: NSObject {
     
     static let shared = CYNetWorkManager()
 
