@@ -27,11 +27,13 @@ public struct CYRequestModel {
 
 public struct CYResopnseModel {
     public var dictionary: [String: Any]?
+    public var array: [Any]?
     public var error: Error?
     public var httpResponse: HTTPURLResponse?
     
-    public init(dictionary: [String: Any]? = nil,error: Error? = nil,httpResponse: HTTPURLResponse? = nil){
+    public init(dictionary: [String: Any]? = nil,array: [Any]? = nil,error: Error? = nil,httpResponse: HTTPURLResponse? = nil){
         self.dictionary = dictionary
+        self.array = array
         self.error = error
         self.httpResponse = httpResponse
     }
@@ -62,6 +64,7 @@ open class CYNetWorkManager: NSObject {
             switch response.result {
             case .success(let value):
                 responseModel.dictionary = JSON(value).dictionaryObject
+                responseModel.array = JSON(value).arrayObject
             case .failure(let error):
                 responseModel.error = error
             }
