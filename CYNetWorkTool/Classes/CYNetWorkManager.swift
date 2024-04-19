@@ -9,7 +9,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-public struct CYRequestModel {
+public class CYRequestModel : NSObject {
     public var method: HTTPMethod
     public var url: String
     public var headers: [String: String]?
@@ -25,7 +25,7 @@ public struct CYRequestModel {
     }
 }
 
-public struct CYResopnseModel {
+public class CYResopnseModel : NSObject {
     public var dictionary: [String: Any]?
     public var array: [Any]?
     public var error: Error?
