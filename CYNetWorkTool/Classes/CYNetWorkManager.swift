@@ -9,14 +9,21 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-public class CYRequestModel : NSObject {
-    public var method: HTTPMethod
+@objc public enum CYRequestMehtod: Int {
+    case get
+    case post
+    case put
+    case delete
+}
+
+@objc public class CYRequestModel : NSObject {
+    public var method: CYRequestMehtod
     public var url: String
     public var headers: [String: String]?
     public var parameters: [String: Any]?
     public var timeoutInterval = 10
     
-    public init(method: HTTPMethod = .get,url: String,headers: [String: String]? = nil,parameters: [String: Any]? = nil,timeoutInterval : Int = 10){
+    @objc public init(method: CYRequestMehtod = .get,url: String,headers: [String: String]? = nil,parameters: [String: Any]? = nil,timeoutInterval : Int = 10){
         self.method = method
         self.url = url
         self.headers = headers
@@ -25,13 +32,13 @@ public class CYRequestModel : NSObject {
     }
 }
 
-public class CYResopnseModel : NSObject {
-    public var dictionary: [String: Any]?
-    public var array: [Any]?
-    public var error: Error?
-    public var httpResponse: HTTPURLResponse?
+@objc public class CYResopnseModel : NSObject {
+    @objc public var dictionary: [String: Any]?
+    @objc public var array: [Any]?
+    @objc public var error: Error?
+    @objc public var httpResponse: HTTPURLResponse?
     
-    public init(dictionary: [String: Any]? = nil,array: [Any]? = nil,error: Error? = nil,httpResponse: HTTPURLResponse? = nil){
+    @objc public init(dictionary: [String: Any]? = nil,array: [Any]? = nil,error: Error? = nil,httpResponse: HTTPURLResponse? = nil){
         self.dictionary = dictionary
         self.array = array
         self.error = error
@@ -39,15 +46,15 @@ public class CYResopnseModel : NSObject {
     }
 }
 
-open class CYNetWorkManager: NSObject {
+@objc open class CYNetWorkManager: NSObject {
     
-    public static let shared = CYNetWorkManager()
+    @objc public static let shared = CYNetWorkManager()
 
-    public class func request(model: CYRequestModel, completion: @escaping (CYResopnseModel) -> Void) {
+    @objc public class func request(model: CYRequestModel, completion: @escaping (CYResopnseModel) -> Void) {
         CYNetWorkManager.shared.request(model: model, completion: completion)
     }
     
-    public func request(model: CYRequestModel, completion: @escaping (CYResopnseModel) -> Void) {
+    @objc public func request(model: CYRequestModel, completion: @escaping (CYResopnseModel) -> Void) {
         var headers: HTTPHeaders?
         if let modelHeader = model.headers {
             headers = HTTPHeaders(modelHeader)
@@ -56,11 +63,19 @@ open class CYNetWorkManager: NSObject {
     }
     
     public func request(model: CYRequestModel, header:HTTPHeaders?, completion: @escaping (CYResopnseModel) -> Void) {
-        let request = AF.request(model.url,method: model.method,parameters: model.parameters,headers:header) { urlRequest in
+        var method = HTTPMethod.get
+        if model.method == .post {
+            method = .post
+        } else if model.method == .put {
+            method = .put
+        } else if model.method == .delete {
+            method = .delete
+        }
+        let request = AF.request(model.url,method: method,parameters: model.parameters,headers:header) { urlRequest in
             urlRequest.timeoutInterval = TimeInterval(model.timeoutInterval)
         }
         request.responseDecodable(of: JSON.self) { response in
-            var responseModel = CYResopnseModel(httpResponse: response.response)
+            let responseModel = CYResopnseModel(httpResponse: response.response)
             switch response.result {
             case .success(let value):
                 responseModel.dictionary = JSON(value).dictionaryObject
@@ -72,25 +87,3 @@ open class CYNetWorkManager: NSObject {
         }
     }
 }
-
-/*
-extension CYNetWorkManager {
-    
-    func commonRequest(model: CYRequestModel, completion: @escaping (CYResopnseModel) -> Void) {
-        var commonHeader = [String: String]()
-        let userAgent = "weather" + "/" + UIDevice.current.appVersion + " (" + UIDevice.current.modelName + ";ios/" + UIDevice.current.systemVersion + ")"
-        commonHeader["User-Agent"] = userAgent
-        commonHeader["Device-Id"] = ""
-        commonHeader["Accept-Language"] = ""
-        commonHeader["Authorization"] = "Bearer " + "token"
-        var headers = HTTPHeaders(commonHeader)
-        if let addHeader = model.headers {
-            for key in addHeader.keys {
-                headers.add(name: key, value: addHeader[key] ?? "")
-            }
-        }
-        request(model: model, header: headers, completion: completion)
-    }
-    
-}
-*/
