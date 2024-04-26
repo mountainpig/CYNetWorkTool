@@ -17,11 +17,11 @@ import SwiftyJSON
 }
 
 @objc public class CYRequestModel : NSObject {
-    public var method: CYRequestMehtod
-    public var url: String
-    public var headers: [String: String]?
-    public var parameters: [String: Any]?
-    public var timeoutInterval = 10
+    @objc public var method: CYRequestMehtod
+    @objc public var url: String
+    @objc public var headers: [String: String]?
+    @objc public var parameters: [String: Any]?
+    @objc public var timeoutInterval = 10
     
     @objc public init(method: CYRequestMehtod = .get,url: String,headers: [String: String]? = nil,parameters: [String: Any]? = nil,timeoutInterval : Int = 10){
         self.method = method
