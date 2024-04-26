@@ -30,6 +30,10 @@ import SwiftyJSON
         self.parameters = parameters
         self.timeoutInterval = timeoutInterval
     }
+    
+    @objc public class func initWithUrl(_ urlStr:String) -> CYRequestModel {
+        return CYRequestModel.init(url: urlStr)
+    }
 }
 
 @objc public class CYResopnseModel : NSObject {

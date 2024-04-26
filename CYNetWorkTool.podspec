@@ -2,7 +2,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CYNetWorkTool'
-  s.version          = '0.1.12'
+  s.version          = '0.1.13'
   s.summary          = 'A short description of CYNetWorkTool.'
 
 
